@@ -20,9 +20,7 @@ int player_move(TicTacToe* game);
 void computer_move(TicTacToe* game);
 void print_game(TicTacToe game);
 char tokenstr(int token);
-void print_result();
-
-int winner; // who has won the game
+void print_result(TicTacToe game);
 
 int main(void) {
 	int size = 0;
@@ -55,7 +53,7 @@ int main(void) {
 			break; // was a winner or a draw
 	} while (TRUE);
 
-	print_result();
+	print_result(game);
 	print_game(game); /* show final positions */
 
 	return 0;
@@ -152,14 +150,7 @@ int check(TicTacToe* game) {
 	int i, j;
 	int count = 1;
 
-//	for (i = 0; i < game->size; i++) { /* check rows */
-//		if (game->board[i][0] != NONE && game->board[i][0] == game->board[i][1]
-//				&& game->board[i][0] == game->board[i][2]) {
-//			game->winner = game->board[i][0];
-//			return TRUE;
-//		}
-//	}
-
+	//Check rows
 	for (i = 0; i < game->size; i++) {
 		count = 1;
 		for (j = 1; j < game->size; j++) {
@@ -169,32 +160,25 @@ int check(TicTacToe* game) {
 			}
 		}
 		if (count == game->size) {
-			game->winner = game->board[i][0];
+			game->winner = game->board[i][j-1];
 			return TRUE;
 		}
 	}
 
-//	for (i = 0; i < game->size; i++) { /* check columns */
-//		if (game->board[0][i] != NONE && game->board[0][i] == game->board[1][i]
-//				&& game->board[0][i] == game->board[2][i]) {
-//			game->winner = game->board[0][i];
-//			return TRUE;
-//		}
-//	}
-
-//	for (i = 1; i < game->size; i++) {
-//		count = 1;
-//		for (j = 0; j < game->size; j++) {
-//			if (game->board[j][i] != NONE
-//					&& game->board[j][i] == game->board[j][i - 1]) {
-//				count++;
-//			}
-//		}
-//		if (count == game->size) {
-//			game->winner = game->board[j][i];
-//			return TRUE;
-//		}
-//	}
+	//Check columns
+	for (i = 0; i < game->size; i++) {
+		count = 1;
+		for (j = 1; j < game->size; j++) {
+			if (game->board[j][i] != NONE
+					&& game->board[j][i] == game->board[j - 1][i]) {
+				count++;
+			}
+		}
+		if (count == game->size) {
+			game->winner = game->board[j-1][i];
+			return TRUE;
+		}
+	}
 
 	/* test diagonals */
 	if (game->board[0][0] != NONE && game->board[0][0] == game->board[1][1]
@@ -227,10 +211,10 @@ int check(TicTacToe* game) {
 }
 
 /* Print the result */
-void print_result() {
-	if (winner == HUMAN)
+void print_result(TicTacToe game) {
+	if (game.winner == HUMAN)
 		printf("You won!\n");
-	else if (winner == COMPUTER)
+	else if (game.winner == COMPUTER)
 		printf("I won!!!!\n");
 	else
 		printf("Draw :(\n");
