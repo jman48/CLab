@@ -2,13 +2,9 @@
  *
  * TICTACTOE -- human vs. computer
  *
- * Author: Ian Welch
- * Date: May 2015
+ *Victoria University assignment
  *
- * CHANGE LOG:
- *
- * 26.05 modified the user prompt to say (row,col) instead of x,y
- *
+ * Author: John Armstrong
  */
 #include <stdio.h>
 #include <stdlib.h>
